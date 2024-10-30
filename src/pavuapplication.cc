@@ -23,6 +23,7 @@
 #endif
 
 #include "i18n.h"
+#include <iostream>
 
 #include "pavuapplication.h"
 #include "pavucontrol.h"
@@ -128,6 +129,8 @@ int on_command_line(const Glib::RefPtr<Gio::ApplicationCommandLine>& command_lin
     get_arg_value(options, "retry", app->retry);
     get_arg_value(options, "maximize", app->maximize);
     get_arg_value(options, "version", app->version);
+    get_arg_value(options, "step-increment", app->step_increment);
+
 
     if (app->version) {
         printf("%s\n", PACKAGE_STRING);
@@ -172,7 +175,12 @@ int main(int argc, char *argv[]) {
         Gio::Application::OptionType::BOOL,
         "version", 'v',
         _("Show version."));
-
+        globalInstance.add_main_option_entry(
+        Gio::Application::OptionType::OPTION_TYPE_INT,
+        "step-increment", 's',
+        _("Set sliders increments in percentage"),
+        _("number"));
+  
     /* Connect to the "on_command_line" signal which is fired
      * when the application receives command-line arguments
      */
